@@ -1,11 +1,19 @@
-﻿using ExpenseTracker.Models;
+﻿using System.Linq;
+using ExpenseTracker.Models;
 
 namespace ExpenseTracker.Storage
 {
-    public class DbSeeder
+    public static class DbSeeder
     {
         public static void Seed(ExpenseTrackerDbContext context)
         {
+
+            if (context.ExpenseCategories.Any() ||
+                context.IncomeCategories.Any())
+            {
+                return;
+            }
+
             //add expence categories
             context.ExpenseCategories.Add( new ExpenseCategory { Type = CategoryType.Default, Name = "Utilities" });
             context.ExpenseCategories.Add( new ExpenseCategory { Type = CategoryType.Default, Name = "Auto" });

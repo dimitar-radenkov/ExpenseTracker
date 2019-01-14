@@ -1,9 +1,10 @@
 ﻿using ExpenseTracker.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace ExpenseTracker.Storage
 {
-    public class ExpenseTrackerDbContext : DbContext
+    public class ExpenseTrackerDbContext : IdentityDbContext
     {
         public DbSet<ExpenseCategory> ExpenseCategories { get; set; }
 
