@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
 
 namespace ExpenseTracker.Api.Services.Contracts
 {
@@ -7,7 +6,7 @@ namespace ExpenseTracker.Api.Services.Contracts
     {
         Task<string> LoginAsync(string email, string password);
 
-        Task<IdentityUser> RegisterAsync(string email, string password);
+        Task RegisterAsync(string email, string password);
 
         Task<bool> LogoutAsync();
     }

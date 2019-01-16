@@ -8,10 +8,16 @@ namespace ExpenseTracker.Api.Validation
         public RegisterBindingModelValidator()
         {
             RuleFor(m => m.Email).EmailAddress();
+            RuleFor(m => m.Password).NotEmpty();
             RuleFor(m => m.ConfirmedPassword).NotEmpty();
-            RuleFor(m => m.Password)
-                .NotEmpty()
-                .Matches(x => x.ConfirmedPassword);
+
+            RuleFor(x => x).Custom((x, context) =>
+            {
+                if (x.Password != x.ConfirmedPassword)
+                {
+                    context.AddFailure(nameof(x.Password), "Passwords should match");
+                }
+            });
         }
     }
 }
