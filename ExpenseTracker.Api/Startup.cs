@@ -1,9 +1,13 @@
 ﻿using System.Text;
 using ExpenseTracker.Api.Contansts;
 using ExpenseTracker.Api.Extensions;
+using ExpenseTracker.Api.Models.BindingModels;
 using ExpenseTracker.Api.Services;
 using ExpenseTracker.Api.Services.Contracts;
+using ExpenseTracker.Api.Validation;
 using ExpenseTracker.Storage;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -27,7 +31,10 @@ namespace ExpenseTracker.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<ILoginService, LoginService>();
+            services.AddTransient<IAuthService, AuthService>();
+
+            //validations
+            services.AddTransient<IValidator<RegisterBindingModel>, RegisterBindingModelValidator>();
 
             services
                 .AddAuthentication()
@@ -59,8 +66,9 @@ namespace ExpenseTracker.Api
                 .AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<ExpenseTrackerDbContext>();
 
-            services.AddMvc()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc()               
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+                .AddFluentValidation();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using ExpenseTracker.Api.Attributes;
 using ExpenseTracker.Api.Models.BindingModels;
 using ExpenseTracker.Api.Services.Contracts;
 using Microsoft.AspNetCore.Mvc;
@@ -10,21 +11,17 @@ namespace ExpenseTracker.Api.Controllers
     [ApiController]
     public class AuthorizationController : ControllerBase
     {
-        private readonly ILoginService loginService;
+        private readonly IAuthService loginService;
 
-        public AuthorizationController(ILoginService loginService)
+        public AuthorizationController(IAuthService loginService)
         {
             this.loginService = loginService;
         }
 
         [HttpPost("register")]
+        [ValidateModel]
         public async Task<IActionResult> RegisterAsync(RegisterBindingModel registerBindingModel)
         {
-            if (!this.ModelState.IsValid)
-            {
-                return this.BadRequest();
-            }
-
             try
             {
                 await this.loginService.RegisterAsync(
@@ -47,6 +44,7 @@ namespace ExpenseTracker.Api.Controllers
         }
 
         [HttpPost("login")]
+        [ValidateModel]
         public async Task<IActionResult> LoginAsync(LoginBindingModel loginBindingModel)
         {
             if (!this.ModelState.IsValid)

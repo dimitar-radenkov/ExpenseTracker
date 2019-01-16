@@ -10,13 +10,17 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace ExpenseTracker.Api.Services
 {
-    public class LoginService : ILoginService
+    public class AuthService : IAuthService
     {
         private readonly UserManager<IdentityUser> userManager;
+        private readonly SignInManager<IdentityUser> signInManager;
 
-        public LoginService(UserManager<IdentityUser> userManager)
+        public AuthService(
+            UserManager<IdentityUser> userManager, 
+            SignInManager<IdentityUser> signInManager)
         {
             this.userManager = userManager;
+            this.signInManager = signInManager;
         }
 
         public async Task<IdentityUser> RegisterAsync(string email, string password)
@@ -60,6 +64,20 @@ namespace ExpenseTracker.Api.Services
             var stringToken = tokenHandler.WriteToken(token);
 
             return stringToken;
+        }
+
+        public async Task<bool> LogoutAsync()
+        {
+            try
+            {
+                await this.signInManager.SignOutAsync();
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }
