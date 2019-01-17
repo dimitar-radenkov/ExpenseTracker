@@ -40,11 +40,6 @@ namespace ExpenseTracker.Api.Controllers
         [ValidateModel]
         public async Task<IActionResult> LoginAsync(LoginBindingModel loginBindingModel)
         {
-            if (!this.ModelState.IsValid)
-            {
-                return this.BadRequest();
-            }
-
             try
             {
                 var token = await this.loginService.LoginAsync(

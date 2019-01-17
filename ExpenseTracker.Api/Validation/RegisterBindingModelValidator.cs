@@ -7,7 +7,7 @@ namespace ExpenseTracker.Api.Validation
     {
         public RegisterBindingModelValidator()
         {
-            RuleFor(m => m.Email).EmailAddress();
+            RuleFor(m => m.Email).NotEmpty().EmailAddress();
             RuleFor(m => m.Password).NotEmpty();
             RuleFor(m => m.ConfirmedPassword).NotEmpty();
 
@@ -18,6 +18,15 @@ namespace ExpenseTracker.Api.Validation
                     context.AddFailure(nameof(x.Password), "Passwords should match");
                 }
             });
+        }
+    }
+
+    public class LoginBindingModelValidator : AbstractValidator<LoginBindingModel>
+    {
+        public LoginBindingModelValidator()
+        {
+            RuleFor(x => x.Email).NotNull().NotEmpty().EmailAddress();
+            RuleFor(x => x.Password).NotNull().NotEmpty();
         }
     }
 }

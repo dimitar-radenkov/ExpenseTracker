@@ -1,12 +1,9 @@
 ﻿using System.Text;
 using ExpenseTracker.Api.Contansts;
 using ExpenseTracker.Api.Extensions;
-using ExpenseTracker.Api.Models.BindingModels;
 using ExpenseTracker.Api.Services;
 using ExpenseTracker.Api.Services.Contracts;
-using ExpenseTracker.Api.Validation;
 using ExpenseTracker.Storage;
-using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
