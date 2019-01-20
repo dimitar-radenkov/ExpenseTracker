@@ -10,5 +10,11 @@ namespace ExpenseTracker.Api.Tests
         {
 
         }
+
+        [TestMethod]
+        public void Register_WithCorrectBindingModel_ShouldReturnOK()
+        {
+
+        }
     }
 }

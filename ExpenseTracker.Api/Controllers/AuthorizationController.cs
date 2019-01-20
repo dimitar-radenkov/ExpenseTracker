@@ -16,9 +16,6 @@ namespace ExpenseTracker.Api.Controllers
         public AuthorizationController(IAuthService loginService)
         {
             this.authService = loginService;
-
-
-
         }
 
         [HttpPost("register")]
