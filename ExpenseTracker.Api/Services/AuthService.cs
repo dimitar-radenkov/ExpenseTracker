@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,15 +23,12 @@ namespace ExpenseTracker.Api.Services
             this.signInManager = signInManager;
         }
 
-        public async Task RegisterAsync(string email, string password)
+        public async Task<IdentityUser> RegisterAsync(string email, string password)
         {
             var user = new IdentityUser { UserName = email, Email = email };
             var result = await this.userManager.CreateAsync(user, password);
 
-            if (!result.Succeeded)
-            {
-                throw new ArgumentException(string.Join(", ", result.Errors.Select(x => x.Description)));
-            }
+            return user;
         }
 
         public async Task<string> LoginAsync(string email, string password)

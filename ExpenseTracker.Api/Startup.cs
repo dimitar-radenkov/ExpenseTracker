@@ -30,6 +30,9 @@ namespace ExpenseTracker.Api
         {
             services.AddTransient<IAuthService, AuthService>();
 
+            //validations
+            services.AddTransient<IValidator<RegisterBindingModel>, RegisterBindingModelValidator>();
+
             services
                 .AddAuthentication()
                 .AddJwtBearer(x =>
@@ -62,7 +65,7 @@ namespace ExpenseTracker.Api
 
             services.AddMvc()               
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
-                .AddFluentValidation(options => options.RegisterValidatorsFromAssemblyContaining<Startup>());
+                .AddFluentValidation();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

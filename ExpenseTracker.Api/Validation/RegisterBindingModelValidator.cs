@@ -10,14 +10,9 @@ namespace ExpenseTracker.Api.Validation
             RuleFor(m => m.Email).NotEmpty().EmailAddress();
             RuleFor(m => m.Password).NotEmpty();
             RuleFor(m => m.ConfirmedPassword).NotEmpty();
-
-            RuleFor(x => x).Custom((x, context) =>
-            {
-                if (x.Password != x.ConfirmedPassword)
-                {
-                    context.AddFailure(nameof(x.Password), "Passwords should match");
-                }
-            });
+            RuleFor(m => m.Password)
+                .NotEmpty()
+                .Matches(x => x.ConfirmedPassword);
         }
     }
 
