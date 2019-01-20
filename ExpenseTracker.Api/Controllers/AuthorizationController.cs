@@ -28,13 +28,6 @@ namespace ExpenseTracker.Api.Controllers
                     registerBindingModel.Email,
                     registerBindingModel.Password);
 
-                var routeObject = new LoginBindingModel
-                {
-                    Email = registerBindingModel.Email,
-                    Password = registerBindingModel.Password
-                };
-
-  
                 return this.Ok();
             }
             catch (Exception e)
