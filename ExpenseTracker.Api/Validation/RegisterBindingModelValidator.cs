@@ -15,13 +15,4 @@ namespace ExpenseTracker.Api.Validation
                 .Matches(x => x.ConfirmedPassword);
         }
     }
-
-    public class LoginBindingModelValidator : AbstractValidator<LoginBindingModel>
-    {
-        public LoginBindingModelValidator()
-        {
-            RuleFor(x => x.Email).NotNull().NotEmpty().EmailAddress();
-            RuleFor(x => x.Password).NotNull().NotEmpty();
-        }
-    }
 }

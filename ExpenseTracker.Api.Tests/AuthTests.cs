@@ -8,6 +8,7 @@ namespace ExpenseTracker.Api.Tests
         [TestMethod]
         public void Register_WithIncorrectBindingModel_ShouldReturnBadRequest()
         {
+
         }
     }
 }

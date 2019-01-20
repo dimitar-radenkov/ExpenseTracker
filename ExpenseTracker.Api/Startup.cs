@@ -1,9 +1,12 @@
 ﻿using System.Text;
 using ExpenseTracker.Api.Contansts;
 using ExpenseTracker.Api.Extensions;
+using ExpenseTracker.Api.Models.BindingModels;
 using ExpenseTracker.Api.Services;
 using ExpenseTracker.Api.Services.Contracts;
+using ExpenseTracker.Api.Validation;
 using ExpenseTracker.Storage;
+using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -32,6 +35,8 @@ namespace ExpenseTracker.Api
 
             //validations
             services.AddTransient<IValidator<RegisterBindingModel>, RegisterBindingModelValidator>();
+
+
 
             services
                 .AddAuthentication()
@@ -63,9 +68,11 @@ namespace ExpenseTracker.Api
                 .AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<ExpenseTrackerDbContext>();
 
-            services.AddMvc()               
+            services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
                 .AddFluentValidation();
+
+            services.AddSwaggerDocument();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -82,6 +89,9 @@ namespace ExpenseTracker.Api
 
             app.MigrateDatabase();
 
+            app.UseSwagger();
+            app.UseSwaggerUi3();
+
             app.UseCors(x => x
                 .AllowAnyOrigin()
                 .AllowAnyMethod()
@@ -90,6 +100,8 @@ namespace ExpenseTracker.Api
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseMvc();
+
+
         }
     }
 }

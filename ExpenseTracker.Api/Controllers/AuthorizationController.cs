@@ -11,11 +11,11 @@ namespace ExpenseTracker.Api.Controllers
     [ApiController]
     public class AuthorizationController : ControllerBase
     {
-        private readonly IAuthService loginService;
+        private readonly IAuthService authService;
 
         public AuthorizationController(IAuthService loginService)
         {
-            this.loginService = loginService;
+            this.authService = loginService;
         }
 
         [HttpPost("register")]
@@ -24,7 +24,7 @@ namespace ExpenseTracker.Api.Controllers
         {
             try
             {
-                await this.loginService.RegisterAsync(
+                await this.authService.RegisterAsync(
                     registerBindingModel.Email,
                     registerBindingModel.Password);
 
@@ -39,7 +39,7 @@ namespace ExpenseTracker.Api.Controllers
             }
             catch (Exception e)
             {
-                return this.BadRequest("Wrong username or password");
+                return this.BadRequest("Unable to register, please contact support");
             }
         }
 
@@ -49,7 +49,7 @@ namespace ExpenseTracker.Api.Controllers
         {
             try
             {
-                var token = await this.loginService.LoginAsync(
+                var token = await this.authService.LoginAsync(
                     loginBindingModel.Email,
                     loginBindingModel.Password);
 
