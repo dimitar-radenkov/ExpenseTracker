@@ -1,3 +1,4 @@
+using ExpenseTracker.Api.Attributes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace ExpenseTracker.Api.Tests
@@ -6,13 +7,15 @@ namespace ExpenseTracker.Api.Tests
     public class AuthTests
     {
         [TestMethod]
-        public void Register_WithIncorrectBindingModel_ShouldReturnBadRequest()
+        public void Test1()
         {
-
+            //arrange
+            var attribute = new ValidateModelAttribute();
+ 
         }
 
         [TestMethod]
-        public void Register_WithCorrectBindingModel_ShouldReturnOK()
+        public void Test2()
         {
 
         }

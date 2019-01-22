@@ -1,6 +1,5 @@
 using System.Linq;
 using System.Net;
-using System.Threading.Tasks;
 using ExpenseTracker.Api.Attributes;
 using ExpenseTracker.Api.Controllers;
 using ExpenseTracker.Api.Models.BindingModels;
