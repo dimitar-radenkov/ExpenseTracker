@@ -17,7 +17,8 @@ namespace ExpenseTracker.Api.Tests
         [TestMethod]
         public void Test2()
         {
-
+            //arrange
+            var attribute = new ValidateModelAttribute();
         }
     }
 }
