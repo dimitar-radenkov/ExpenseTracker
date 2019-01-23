@@ -38,7 +38,7 @@ namespace ExpenseTracker.Api.Tests
 
             //Assert
             Assert.IsNotNull(context.Result);
-            Assert.IsInstanceOfType(context.Result, typeof(ViewResult));
+            Assert.IsInstanceOfType(context.Result, typeof(IActionResult));
         }
     }
 }
