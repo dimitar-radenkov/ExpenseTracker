@@ -71,8 +71,6 @@ namespace ExpenseTracker.Api
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
                 .AddFluentValidation();
-
-            services.AddSwaggerDocument();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -88,9 +86,6 @@ namespace ExpenseTracker.Api
             }
 
             app.MigrateDatabase();
-
-            app.UseSwagger();
-            app.UseSwaggerUi3();
 
             app.UseCors(x => x
                 .AllowAnyOrigin()

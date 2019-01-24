@@ -7,10 +7,10 @@ namespace ExpenseTracker.Api.Validation
     {
         public RegisterBindingModelValidator()
         {
-            RuleFor(m => m.Email).NotEmpty().EmailAddress();
-            RuleFor(m => m.Password).NotEmpty();
-            RuleFor(m => m.ConfirmedPassword).NotEmpty();
-            RuleFor(m => m.Password)
+            this.RuleFor(m => m.Email).NotEmpty().EmailAddress();
+            this.RuleFor(m => m.Password).NotEmpty();
+            this.RuleFor(m => m.ConfirmedPassword).NotEmpty();
+            this.RuleFor(m => m.Password)
                 .NotEmpty()
                 .Matches(x => x.ConfirmedPassword);
         }

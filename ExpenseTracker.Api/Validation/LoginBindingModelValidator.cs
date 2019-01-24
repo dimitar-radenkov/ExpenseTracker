@@ -7,8 +7,8 @@ namespace ExpenseTracker.Api.Validation
     {
         public LoginBindingModelValidator()
         {
-            RuleFor(x => x.Email).NotNull().NotEmpty().EmailAddress();
-            RuleFor(x => x.Password).NotNull().NotEmpty();
+            this.RuleFor(x => x.Email).NotNull().NotEmpty().EmailAddress();
+            this.RuleFor(x => x.Password).NotNull().NotEmpty();
         }
     }
 }
