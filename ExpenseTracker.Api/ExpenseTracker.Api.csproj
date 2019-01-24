@@ -6,18 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="wwwroot\**" />
-    <Content Remove="wwwroot\**" />
-    <EmbeddedResource Remove="wwwroot\**" />
-    <None Remove="wwwroot\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="FluentValidation.AspNetCore" Version="8.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
     <PackageReference Include="NSwag.AspNetCore" Version="12.0.12" />
-	  <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1.1" />
   </ItemGroup>
 
   <ItemGroup>
