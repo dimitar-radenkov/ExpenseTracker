@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.AspNetCore.Identity;
 
 namespace ExpenseTracker.Models
 {
@@ -12,5 +13,8 @@ namespace ExpenseTracker.Models
 
         public long CategoryId { get; set; }
         public ExpenseCategory Category { get; set; }
+
+        public int UserId { get; set; }
+        public IdentityUser User { get; set; }
     }
 }

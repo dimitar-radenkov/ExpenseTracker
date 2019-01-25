@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using ExpenseTracker.Models;
 
 namespace ExpenseTracker.Api.Services.Contracts
 {
     public interface IExpensesService
     {
-        Expense Add(decimal amount, string descrition, long categoryId); 
+        Task<Expense> AddAsync(decimal amount, string descrition, long categoryId); 
 
         Expense Get(long expenseId);
 
