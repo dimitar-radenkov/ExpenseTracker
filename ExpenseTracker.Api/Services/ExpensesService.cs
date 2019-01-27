@@ -16,7 +16,11 @@ namespace ExpenseTracker.Api.Services
             this.db = db;
         }
 
-        public async Task<Expense> AddAsync(decimal amount, string descrition, long categoryId)
+        public async Task<Expense> AddAsync(
+            decimal amount,
+            string descrition, 
+            long categoryId,
+            string userId)
         {
             var entity = new Expense
             {
@@ -24,6 +28,7 @@ namespace ExpenseTracker.Api.Services
                 CategoryId = categoryId,
                 Description = descrition,
                 Date = DateTime.UtcNow,
+                UserId = userId,
             };
 
             await this.db.Expenses.AddAsync(entity);

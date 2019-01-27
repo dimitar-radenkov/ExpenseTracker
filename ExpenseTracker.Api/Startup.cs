@@ -32,6 +32,7 @@ namespace ExpenseTracker.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<IAuthService, AuthService>();
+            services.AddTransient<IExpensesService, ExpensesService>();
 
             //validations
             services.AddTransient<IValidator<RegisterBindingModel>, RegisterBindingModelValidator>();

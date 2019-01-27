@@ -6,7 +6,11 @@ namespace ExpenseTracker.Api.Services.Contracts
 {
     public interface IExpensesService
     {
-        Task<Expense> AddAsync(decimal amount, string descrition, long categoryId); 
+        Task<Expense> AddAsync(
+            decimal amount, 
+            string descrition,
+            long categoryId, 
+            string userId); 
 
         Expense Get(long expenseId);
 
