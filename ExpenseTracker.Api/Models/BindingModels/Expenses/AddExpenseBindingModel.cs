@@ -1,4 +1,4 @@
-﻿namespace ExpenseTracker.Api.Models.BindingModels
+﻿namespace ExpenseTracker.Api.Models.BindingModels.Expenses
 {
     public class AddExpenseBindingModel
     {

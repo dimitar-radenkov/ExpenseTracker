@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using ExpenseTracker.Models;
 
@@ -14,10 +15,17 @@ namespace ExpenseTracker.Api.Services.Contracts
 
         Expense Get(long expenseId);
 
-        bool Update(long expenseId, decimal amount, string description, long categoryId);
+        Task UpdateAsync(
+            long expenseId, 
+            decimal amount, 
+            string description,
+            long categoryId, 
+            string userId);
 
-        bool Delete(long expenseId);
+        Task DeleteAsync(long expenseId);
 
-        IEnumerable<Expense> GetByCategory(long categoryId);
+        Task<IEnumerable<Expense>> GetAllAsync(string userId);
+
+        Task<IEnumerable<Expense>> GetAllByPeriodAsync(string userId, DateTime from, DateTime to);
     }
 }

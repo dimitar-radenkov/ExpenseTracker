@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using ExpenseTracker.Api.Services.Contracts;
 using ExpenseTracker.Models;
 using ExpenseTracker.Storage;
+using Microsoft.EntityFrameworkCore;
 
 namespace ExpenseTracker.Api.Services
 {
@@ -37,9 +39,13 @@ namespace ExpenseTracker.Api.Services
             return entity;        
         }
 
-        public bool Delete(long expenseId)
+        public async Task DeleteAsync(long expenseId)
         {
-            throw new System.NotImplementedException();
+            var expense = this.db.Expenses
+                .First(x => x.Id == expenseId);
+
+            this.db.Expenses.Remove(expense);
+            await this.db.SaveChangesAsync();
         }
 
         public Expense Get(long expenseId)
@@ -47,14 +53,36 @@ namespace ExpenseTracker.Api.Services
             throw new System.NotImplementedException();
         }
 
-        public IEnumerable<Expense> GetByCategory(long categoryId)
+        public async Task<IEnumerable<Expense>> GetAllAsync(string userId)
         {
-            throw new System.NotImplementedException();
+            return await this.db.Expenses
+                .Where(x => x.UserId == userId)
+                .AsNoTracking()
+                .ToListAsync();
         }
 
-        public bool Update(long expenseId, decimal amount, string description, long categoryId)
+        public Task<IEnumerable<Expense>> GetAllByPeriodAsync(string userId, DateTime from, DateTime to)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
+        }
+
+
+        public async Task UpdateAsync(
+            long expenseId,
+            decimal amount,
+            string description, 
+            long categoryId, 
+            string userId)
+        {
+            var expense = this.db.Expenses
+                .First(x => x.Id == expenseId && x.UserId == userId);
+
+            expense.Amount = amount;
+            expense.CategoryId = categoryId;
+            expense.Description = description;
+
+            this.db.Expenses.Update(expense);
+            await this.db.SaveChangesAsync();
         }
     }
 }
