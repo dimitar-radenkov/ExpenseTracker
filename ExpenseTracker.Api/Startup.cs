@@ -36,6 +36,7 @@ namespace ExpenseTracker.Api
 
             //validations
             services.AddTransient<IValidator<RegisterBindingModel>, RegisterBindingModelValidator>();
+            services.AddTransient<IValidator<LoginBindingModel>, LoginBindingModelValidator>();
 
             services
                 .AddAuthentication()
