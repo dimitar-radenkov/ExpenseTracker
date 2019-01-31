@@ -1,0 +1,283 @@
+{
+	"info": {
+		"_postman_id": "c12df260-0478-41ee-a7da-d371cdf97cc7",
+		"name": "ExpenseTracker",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Authorization",
+			"item": [
+				{
+					"name": "Register",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d3a8a89a-b775-4f3d-baef-66667a550455",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    console.log(pm.response.body);",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"test@test.com\",\r\n  \"password\": \"123\",\r\n  \"confirmedPassword\": \"123\"\r\n}"
+						},
+						"url": {
+							"raw": "https://localhost:44343/api/authorization/register",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44343",
+							"path": [
+								"api",
+								"authorization",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0c28f263-6589-45eb-a78a-d25612a8017d",
+								"exec": [
+									"if(pm.response.code === 200){",
+									"    let token = pm.response.json().token;",
+									"    pm.environment.set(\"token\", token);",
+									"}",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"test@test.com\",\r\n  \"password\": \"123\"\r\n}"
+						},
+						"url": {
+							"raw": "https://localhost:44343/api/authorization/login",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44343",
+							"path": [
+								"api",
+								"authorization",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Expenses",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"amount\": 25,\r\n  \"description\": \"nafta\",\r\n  \"categoryId\": 2\r\n}"
+						},
+						"url": {
+							"raw": "https://localhost:44343/api/expenses",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44343",
+							"path": [
+								"api",
+								"expenses"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44343/api/expenses/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44343",
+							"path": [
+								"api",
+								"expenses",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAll",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44343/api/expenses/getall",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44343",
+							"path": [
+								"api",
+								"expenses",
+								"getall"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"amount\": 25,\r\n  \"description\": \"dizel\",\r\n  \"categoryId\": 2,\r\n  \"expenseId\" : 1\r\n}"
+						},
+						"url": {
+							"raw": "https://localhost:44343/api/expenses",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44343",
+							"path": [
+								"api",
+								"expenses"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
