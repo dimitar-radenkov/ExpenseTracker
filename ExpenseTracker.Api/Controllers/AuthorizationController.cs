@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using ExpenseTracker.Api.Attributes;
 using ExpenseTracker.Api.Models.BindingModels;
+using ExpenseTracker.Api.Models.Responses;
 using ExpenseTracker.Api.Services.Contracts;
 using Microsoft.AspNetCore.Mvc;
 
@@ -46,7 +47,7 @@ namespace ExpenseTracker.Api.Controllers
                     loginBindingModel.Email,
                     loginBindingModel.Password);
 
-                return this.Ok(new { Token = token });
+                return this.Ok(new LoginResponse { Token = token });
             }
             catch (Exception)
             {

@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using ExpenseTracker.Api.Attributes;
 using ExpenseTracker.Api.Models.BindingModels.Expenses;
 using ExpenseTracker.Api.Services.Contracts;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ExpenseTracker.Api.Controllers
@@ -14,12 +13,14 @@ namespace ExpenseTracker.Api.Controllers
     public class ExpensesController : ControllerBase
     {
         private readonly IExpensesService expensesService;
+        private readonly IUserResolverService userResolverService;
 
         public ExpensesController(
             IExpensesService expensesService,
-            UserManager<IdentityUser> userManager)
+            IUserResolverService userResolverService)
         {
             this.expensesService = expensesService;
+            this.userResolverService = userResolverService;
         }
 
         [HttpGet("getall")]
@@ -28,7 +29,7 @@ namespace ExpenseTracker.Api.Controllers
         {
             try
             {
-                var userId = this.User.FindFirst(ClaimTypes.Name).Value;
+                var userId = this.userResolverService.User.FindFirst(ClaimTypes.Name).Value;
                 var expenses = await this.expensesService.GetAllAsync(userId);
 
                 return this.Ok(expenses);
@@ -45,7 +46,7 @@ namespace ExpenseTracker.Api.Controllers
         {
             try
             {
-                var userId = this.User.FindFirst(ClaimTypes.Name).Value;
+                var userId = this.userResolverService.User.FindFirst(ClaimTypes.Name).Value;
 
                 var expense = await this.expensesService.AddAsync(
                     bindingModel.Amount,
@@ -67,7 +68,7 @@ namespace ExpenseTracker.Api.Controllers
         {
             try
             {
-                var userId = this.User.FindFirst(ClaimTypes.Name).Value;
+                var userId = this.userResolverService.User.FindFirst(ClaimTypes.Name).Value;
 
                 await this.expensesService.UpdateAsync(
                     bindingModel.ExpenseId,

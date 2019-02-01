@@ -1,5 +1,10 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Security.Claims;
+using System.Security.Principal;
 using ExpenseTracker.Api.Models.BindingModels;
+using ExpenseTracker.Api.Models.Responses;
 using ExpenseTracker.Api.Services.Contracts;
 using ExpenseTracker.Storage;
 using Microsoft.AspNetCore.Hosting;
@@ -14,44 +19,51 @@ namespace ExpenseTracker.Api.Integration.Tests
     [TestClass]
     public class ExpenseTests
     {
-        private const string REGISTER_ENDPOINT = "api/authorization/register";
-        private const string LOGIN_ENDPOINT = "api/authorization/login";
-
-        private const string GETALL_ENDPOINT = "api/expenses/getall";
-
         private TestServer testServer;
         private HttpClient testClient;
 
         private string token;
 
         private Mock<IExpensesService> mockExpenseService;
+        private Mock<IUserResolverService> mockUserResolverService;
 
         [TestInitialize]
         public void Initialize()
         {
             this.mockExpenseService = new Mock<IExpensesService>();
+            this.mockUserResolverService = new Mock<IUserResolverService>();
 
             this.testServer = new TestServer(
                 new WebHostBuilder()
                     .UseStartup<Startup>()
-                    .ConfigureTestServices(services =>
+                    .ConfigureServices(services =>
                     {
-                        services.AddDbContext<ExpenseTrackerDbContext>(options => 
+                        services.AddDbContext<ExpenseTrackerDbContext>(options =>
                         {
                             options.UseInMemoryDatabase("test");
                         });
+                    })
+                    .ConfigureTestServices(services => 
+                    {
+                        services.AddSingleton(this.mockUserResolverService.Object);
                     }));
 
             this.testClient = this.testServer.CreateClient();
-            //this.Register();
-            //this.token = this.Login();          
+            this.Register();
+            this.Login();
+            this.testClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {this.token}");
         }
 
         [TestMethod]
         public void GetAll_WhenInvoked_ShouldCallGetAllASync()
-        {        
+        {
+            //arrange
+            this.mockUserResolverService
+                .Setup(x => x.User)
+                .Returns(new ClaimsPrincipal(new GenericIdentity(Guid.NewGuid().ToString())));
+
             //act
-            var response = this.testClient.GetAsync(GETALL_ENDPOINT).Result;
+            var response = this.testClient.GetAsync(TestContants.GETALL_ENDPOINT).Result;
 
             //assert
             response.EnsureSuccessStatusCode();
@@ -61,28 +73,28 @@ namespace ExpenseTracker.Api.Integration.Tests
         {
             var bindingModel = new RegisterBindingModel
             {
-                Email = "test@test.com",
-                Password = "test123",
-                ConfirmedPassword = "test123"
+                Email = TestContants.USER_EMAIL,
+                Password = TestContants.USER_PASS,
+                ConfirmedPassword = TestContants.USER_PASS
             };
            
-            var response = this.testClient.PostAsJsonAsync(REGISTER_ENDPOINT, bindingModel).Result;
+            var response = this.testClient.PostAsJsonAsync(TestContants.REGISTER_ENDPOINT, bindingModel).Result;
             response.EnsureSuccessStatusCode();
         }
 
-        private string Login()
+        private void Login()
         {
             var bindingModel = new LoginBindingModel
             {
-                Email = "test@testov.com",
-                Password = "test123"
+                Email = TestContants.USER_EMAIL,
+                Password = TestContants.USER_PASS
             };
 
             //act
-            var response = this.testClient.PostAsJsonAsync(LOGIN_ENDPOINT, bindingModel).Result;
-            var responeToken = response.Content.ReadAsStringAsync().Result;
+            var response = this.testClient.PostAsJsonAsync(TestContants.LOGIN_ENDPOINT, bindingModel).Result;
+            var responeToken = response.Content.ReadAsAsync<LoginResponse>().Result;
 
-            return responeToken;
+            this.token = responeToken.Token;
         }
     }
 }
