@@ -8,6 +8,7 @@ using ExpenseTracker.Api.Validation;
 using ExpenseTracker.Storage;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -39,7 +40,11 @@ namespace ExpenseTracker.Api
             services.AddTransient<IValidator<LoginBindingModel>, LoginBindingModelValidator>();
 
             services
-                .AddAuthentication()
+                .AddAuthentication(x => 
+                {
+                    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
                 .AddJwtBearer(x =>
                 {
                     x.RequireHttpsMetadata = false;

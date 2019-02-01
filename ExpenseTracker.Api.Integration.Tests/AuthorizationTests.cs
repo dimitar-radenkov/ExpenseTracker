@@ -4,7 +4,6 @@ using System.Net;
 using System.Net.Http;
 using ExpenseTracker.Api.Attributes;
 using ExpenseTracker.Api.Controllers;
-using ExpenseTracker.Api.Extensions;
 using ExpenseTracker.Api.Models.BindingModels;
 using ExpenseTracker.Api.Services.Contracts;
 using Microsoft.AspNetCore.Hosting;
@@ -38,6 +37,8 @@ namespace ExpenseTracker.Api.Integration.Tests
                     .ConfigureTestServices(services =>
                     {
                         services.AddSingleton(this.mockAuthService.Object);
+
+                        //services.adda
                     }));
 
             this.testClient = this.testServer.CreateClient();

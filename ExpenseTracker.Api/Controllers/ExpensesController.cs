@@ -4,8 +4,6 @@ using System.Threading.Tasks;
 using ExpenseTracker.Api.Attributes;
 using ExpenseTracker.Api.Models.BindingModels.Expenses;
 using ExpenseTracker.Api.Services.Contracts;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,23 +11,20 @@ namespace ExpenseTracker.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ExpensesController : ControllerBase
     {
         private readonly IExpensesService expensesService;
-        private readonly UserManager<IdentityUser> userManager;
 
         public ExpensesController(
             IExpensesService expensesService,
             UserManager<IdentityUser> userManager)
         {
             this.expensesService = expensesService;
-            this.userManager = userManager;
         }
 
         [HttpGet("getall")]
         [ValidateModel]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAllAsync()
         {
             try
             {
