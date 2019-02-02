@@ -37,8 +37,6 @@ namespace ExpenseTracker.Api.Integration.Tests
                     .ConfigureTestServices(services =>
                     {
                         services.AddSingleton(this.mockAuthService.Object);
-
-                        //services.adda
                     }));
 
             this.testClient = this.testServer.CreateClient();

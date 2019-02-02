@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Security.Principal;
 using ExpenseTracker.Api.Models.BindingModels;
+using ExpenseTracker.Api.Models.BindingModels.Expenses;
 using ExpenseTracker.Api.Models.Responses;
 using ExpenseTracker.Api.Services.Contracts;
+using ExpenseTracker.Models;
 using ExpenseTracker.Storage;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
@@ -46,6 +50,7 @@ namespace ExpenseTracker.Api.Integration.Tests
                     .ConfigureTestServices(services => 
                     {
                         services.AddSingleton(this.mockUserResolverService.Object);
+                        services.AddSingleton(this.mockExpenseService.Object);
                     }));
 
             this.testClient = this.testServer.CreateClient();
@@ -63,10 +68,86 @@ namespace ExpenseTracker.Api.Integration.Tests
                 .Returns(new ClaimsPrincipal(new GenericIdentity(Guid.NewGuid().ToString())));
 
             //act
-            var response = this.testClient.GetAsync(TestContants.GETALL_ENDPOINT).Result;
+            var response = this.testClient.GetAsync(TestContants.EXPENSES_GETALL_ENDPOINT).Result;
 
             //assert
             response.EnsureSuccessStatusCode();
+        }
+
+        [TestMethod]
+        public void Post_WhenInvoked_ShouldCallAddAsync()
+        {
+            //arrange
+            this.mockUserResolverService
+                .Setup(x => x.User)
+                .Returns(new ClaimsPrincipal(new GenericIdentity(Guid.NewGuid().ToString())));
+
+            var bindindModel = new AddExpenseBindingModel
+            {
+                Amount = 100,
+                CategoryId = 1,
+                Description = "test1"
+            };
+
+            //act
+            var response = this.testClient
+                .PostAsJsonAsync(TestContants.EXPENSES_ENDPOINT, bindindModel).Result;
+
+            //assert
+            response.EnsureSuccessStatusCode();
+            Assert.AreEqual(response.StatusCode, HttpStatusCode.Created);
+            this.mockExpenseService.Verify(x =>
+                x.AddAsync(It.IsAny<decimal>(), It.IsAny<string>(), It.IsAny<long>(), It.IsAny<string>()), 
+                Times.Once);
+        }
+
+        [TestMethod]
+        public void Put_WhenInvoked_ShouldCallUpdateAsync()
+        {
+            //arrange
+            this.mockUserResolverService
+                .Setup(x => x.User)
+                .Returns(new ClaimsPrincipal(new GenericIdentity(Guid.NewGuid().ToString())));
+
+            var bindindModel = new UpdateExpenseBindingModel
+            {
+                ExpenseId = 1,
+                Amount = 100,
+                CategoryId = 1,
+                Description = "test1"
+            };
+
+            //act
+            var response = this.testClient
+                .PutAsJsonAsync(TestContants.EXPENSES_ENDPOINT, bindindModel).Result;
+
+            //assert
+            response.EnsureSuccessStatusCode();
+            Assert.AreEqual(response.StatusCode, HttpStatusCode.NoContent);
+            this.mockExpenseService.Verify(x =>
+                x.UpdateAsync(It.IsAny<long>(), It.IsAny<decimal>(), It.IsAny<string>(), It.IsAny<long>(), It.IsAny<string>()),
+                Times.Once);              
+        }
+
+        [TestMethod]
+        public void Delete_WhenInvoked_ShouldCallDeleteAsync()
+        {
+            //arrange
+            this.mockUserResolverService
+                .Setup(x => x.User)
+                .Returns(new ClaimsPrincipal(new GenericIdentity(Guid.NewGuid().ToString())));
+
+            long expenseId = 1;
+            //act
+            var response = this.testClient
+                .DeleteAsync($"{TestContants.EXPENSES_ENDPOINT}{expenseId}").Result;
+
+            //assert
+            response.EnsureSuccessStatusCode();
+            Assert.AreEqual(response.StatusCode, HttpStatusCode.NoContent);
+            this.mockExpenseService.Verify(x =>
+                x.DeleteAsync(It.IsAny<long>()),
+                Times.Once);
         }
 
         private void Register()
