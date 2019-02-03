@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ExpenseTracker.Mobile.ViewModel;
 using Xamarin.Forms;
 
 namespace ExpenseTracker.Mobile
@@ -11,7 +7,8 @@ namespace ExpenseTracker.Mobile
     {
         public MainPage()
         {
-            InitializeComponent();
+            this.InitializeComponent();
+            this.BindingContext = new MainPageViewModel();
         }
     }
 }
