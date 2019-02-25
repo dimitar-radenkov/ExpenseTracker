@@ -36,7 +36,7 @@ namespace ExpenseTracker.Api.Controllers
             }
             catch (Exception e)
             {
-                return this.BadRequest("Unable to add expense, please contact support");
+                return this.BadRequest("Unable to get expenses, please contact support");
             }
         }
 
