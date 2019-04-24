@@ -1,15 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Security.Claims;
-using System.Security.Principal;
-using ExpenseTracker.Api.Models.BindingModels;
-using ExpenseTracker.Api.Models.BindingModels.Expenses;
-using ExpenseTracker.Api.Models.Responses;
-using ExpenseTracker.Api.Services.Contracts;
-using ExpenseTracker.Models;
+﻿using ExpenseTracker.Api.Services.Contracts;
+using ExpenseTracker.Common.Models.BindingModels;
+using ExpenseTracker.Common.Models.BindingModels.Expenses;
+using ExpenseTracker.Common.Models.Responses;
 using ExpenseTracker.Storage;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
@@ -17,6 +9,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using System;
+using System.Net;
+using System.Net.Http;
+using System.Security.Claims;
+using System.Security.Principal;
 
 namespace ExpenseTracker.Api.Integration.Tests
 {

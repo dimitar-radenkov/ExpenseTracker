@@ -1,17 +1,17 @@
-using System;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using ExpenseTracker.Api.Attributes;
 using ExpenseTracker.Api.Controllers;
-using ExpenseTracker.Api.Models.BindingModels;
 using ExpenseTracker.Api.Services.Contracts;
+using ExpenseTracker.Common.Models.BindingModels;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using System;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
 
 namespace ExpenseTracker.Api.Integration.Tests
 {

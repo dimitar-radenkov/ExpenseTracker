@@ -1,4 +1,4 @@
-﻿namespace ExpenseTracker.Api.Models.Responses
+﻿namespace ExpenseTracker.Common.Models.Responses
 {
     public class LoginResponse
     {

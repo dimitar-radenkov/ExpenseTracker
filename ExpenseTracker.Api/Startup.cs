@@ -1,13 +1,9 @@
-﻿using System.Text;
-using ExpenseTracker.Api.Contansts;
+﻿using ExpenseTracker.Api.Contansts;
 using ExpenseTracker.Api.Extensions;
-using ExpenseTracker.Api.Models.BindingModels;
 using ExpenseTracker.Api.Services;
 using ExpenseTracker.Api.Services.Contracts;
-using ExpenseTracker.Api.Validation;
+using ExpenseTracker.Common.Models.BindingModels;
 using ExpenseTracker.Storage;
-using FluentValidation;
-using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -17,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace ExpenseTracker.Api
 {
@@ -35,10 +32,6 @@ namespace ExpenseTracker.Api
             services.AddTransient<IAuthService, AuthService>();
             services.AddTransient<IExpensesService, ExpensesService>();
             services.AddTransient<IUserResolverService, UserResolverService>();
-
-            //validations
-            services.AddTransient<IValidator<RegisterBindingModel>, RegisterBindingModelValidator>();
-            services.AddTransient<IValidator<LoginBindingModel>, LoginBindingModelValidator>();
 
             services
                 .AddAuthentication(x => 
@@ -75,8 +68,7 @@ namespace ExpenseTracker.Api
                 .AddEntityFrameworkStores<ExpenseTrackerDbContext>();
 
             services.AddMvc()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
-                .AddFluentValidation();
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

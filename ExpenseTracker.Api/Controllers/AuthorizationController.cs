@@ -1,10 +1,10 @@
-﻿using System;
-using System.Threading.Tasks;
-using ExpenseTracker.Api.Attributes;
-using ExpenseTracker.Api.Models.BindingModels;
-using ExpenseTracker.Api.Models.Responses;
+﻿using ExpenseTracker.Api.Attributes;
 using ExpenseTracker.Api.Services.Contracts;
+using ExpenseTracker.Common.Models.BindingModels;
+using ExpenseTracker.Common.Models.Responses;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Threading.Tasks;
 
 namespace ExpenseTracker.Api.Controllers
 {
@@ -31,7 +31,7 @@ namespace ExpenseTracker.Api.Controllers
 
                 return this.Ok();
             }
-            catch (Exception e)
+            catch (Exception )
             {
                 return this.BadRequest("Unable to register, please contact support");
             }

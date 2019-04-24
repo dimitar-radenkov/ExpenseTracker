@@ -1,0 +1,41 @@
+﻿@page "/"
+
+@using ExpenseTracker.Common.Models.BindingModels;
+@using ExpenseTracker.BlazorClient.Services;
+
+@inject IAuthService authService;
+
+<h2>Login</h2>
+<br />
+<div class="row">
+    <EditForm Model="@this.loginModel">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="form-group">
+            <label for="email">Email address:</label>
+            <input type="email" class="form-control" id="email" bind="@this.loginModel.Email" />
+            <ValidationMessage For="@(() => this.loginModel.Email)"></ValidationMessage>
+        </div>
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" class="form-control" id="password" bind="@this.loginModel.Password" />
+            <ValidationMessage For="@(() => this.loginModel.Password)"></ValidationMessage>
+        </div>
+        <button type="submit" class="btn btn-primary" onclick="@OnLoginButtonClick">Submit</button>
+    </EditForm>
+</div>
+
+<h2>@this.loginModel.Email</h2>
+<h2>@this.loginModel.Password</h2>
+
+
+@functions{
+
+    private LoginBindingModel loginModel = new LoginBindingModel();
+
+    private void OnLoginButtonClick()
+    {
+        var token = this.authService.Login(this.loginModel.Email, this.loginModel.Password);
+    }
+}

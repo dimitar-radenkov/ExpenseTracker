@@ -1,10 +1,10 @@
-﻿using System;
+﻿using ExpenseTracker.Api.Attributes;
+using ExpenseTracker.Api.Services.Contracts;
+using ExpenseTracker.Common.Models.BindingModels.Expenses;
+using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using ExpenseTracker.Api.Attributes;
-using ExpenseTracker.Api.Models.BindingModels.Expenses;
-using ExpenseTracker.Api.Services.Contracts;
-using Microsoft.AspNetCore.Mvc;
 
 namespace ExpenseTracker.Api.Controllers
 {

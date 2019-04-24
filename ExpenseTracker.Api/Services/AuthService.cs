@@ -26,7 +26,7 @@ namespace ExpenseTracker.Api.Services
         public async Task<IdentityUser> RegisterAsync(string email, string password)
         {
             var user = new IdentityUser { UserName = email, Email = email };
-            var result = await this.userManager.CreateAsync(user, password);
+            await this.userManager.CreateAsync(user, password);
 
             return user;
         }

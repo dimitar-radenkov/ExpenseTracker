@@ -6,13 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FluentValidation.AspNetCore" Version="8.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1.1" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
-    <PackageReference Include="NSwag.AspNetCore" Version="12.0.12" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ExpenseTracker.Common\ExpenseTracker.Common.csproj" />
     <ProjectReference Include="..\ExpenseTracker.Storage\ExpenseTracker.Storage.csproj" />
 	
   </ItemGroup>
