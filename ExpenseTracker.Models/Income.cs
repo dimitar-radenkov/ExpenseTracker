@@ -11,6 +11,7 @@ namespace ExpenseTracker.Models
         public DateTime Date { get; set; }
 
         public long CategoryId { get; set; } 
+
         public IncomeCategory Category { get; set; }
     }
 }
