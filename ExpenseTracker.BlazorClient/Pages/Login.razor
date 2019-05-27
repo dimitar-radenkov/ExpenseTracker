@@ -1,9 +1,11 @@
-﻿@page "/"
+﻿@page "/login"
 
 @using ExpenseTracker.Common.Models.BindingModels;
 @using ExpenseTracker.BlazorClient.Services;
+@using Microsoft.AspNetCore.Components
 
 @inject IAuthService authService;
+@inject IUriHelper uriHelper;
 
 <h2>Login</h2>
 <br />
@@ -26,16 +28,17 @@
     </EditForm>
 </div>
 
-<h2>@this.loginModel.Email</h2>
-<h2>@this.loginModel.Password</h2>
-
-
 @functions{
 
     private LoginBindingModel loginModel = new LoginBindingModel();
-
-    private void OnLoginButtonClick()
+   
+    private async Task OnLoginButtonClick()
     {
-        var token = this.authService.Login(this.loginModel.Email, this.loginModel.Password);
+        await this.authService.LoginAsync(this.loginModel.Email, this.loginModel.Password);
+
+        if (this.authService.IsLoggedIn)
+        {
+            this.uriHelper.NavigateTo("/");
+        }
     }
 }

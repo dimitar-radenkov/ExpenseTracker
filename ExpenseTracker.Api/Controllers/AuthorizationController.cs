@@ -47,7 +47,12 @@ namespace ExpenseTracker.Api.Controllers
                     loginBindingModel.Email,
                     loginBindingModel.Password);
 
-                return this.Ok(new LoginResponse { Token = token });
+                return this.Ok(
+                    new LoginResponse
+                    {
+                        Token = token,
+                        User = loginBindingModel.Email
+                    });
             }
             catch (Exception)
             {

@@ -1,0 +1,15 @@
+﻿@page "/"
+
+@using ExpenseTracker.BlazorClient.Services;
+@using Blazored.LocalStorage;
+
+@inject IAuthService authService;
+
+@if (this.authService.IsLoggedIn)
+{
+    <h2>Hello, @this.authService.User</h2>
+}
+else
+{
+    <h2>Please <a href="/login">login</a>! </h2>
+}
