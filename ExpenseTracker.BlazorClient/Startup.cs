@@ -8,7 +8,7 @@ namespace ExpenseTracker.BlazorClient
     public class Startup
     {
         public void ConfigureServices(IServiceCollection services)
-        {
+        {           
             services.AddSingleton<IAuthService, AuthService>();
             services.AddBlazoredLocalStorage();
         }

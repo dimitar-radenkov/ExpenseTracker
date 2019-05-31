@@ -1,4 +1,5 @@
 ﻿using ExpenseTracker.Api.Attributes;
+using ExpenseTracker.Api.Services;
 using ExpenseTracker.Api.Services.Contracts;
 using ExpenseTracker.Common.Models.BindingModels;
 using ExpenseTracker.Common.Models.Responses;

@@ -10,13 +10,6 @@ using Microsoft.AspNetCore.Components;
 
 namespace ExpenseTracker.BlazorClient.Services
 {
-    public interface IAuthService
-    {
-        Task LoginAsync(string email, string pass);
-
-        Task LogoutAsync();
-    }
-
     public class AuthService : IAuthService
     {
         //this should NOT be haredcoded
@@ -55,6 +48,22 @@ namespace ExpenseTracker.BlazorClient.Services
             await this.localStorageService.RemoveItemAsync(AppConstants.LOGGED_USER_KEY);
         }
 
+        public async Task<LoginInfo> GetLoginInfo()
+        {
+            var hasToken = await this.localStorageService.GetItemAsync<string>(AppConstants.AUTH_KEY) != null;
+            if (!hasToken)
+            {
+                return new LoginInfo { IsLogged = false, Username = string.Empty };
+            }
+            var username = await this.localStorageService.GetItemAsync<string>(AppConstants.LOGGED_USER_KEY);
+
+            return new LoginInfo
+            {
+                IsLogged = true,
+                Username = username
+            };
+        }
+
         private async Task SaveToStorage(string token, string user)
         {
             if (string.IsNullOrEmpty(token) ||
@@ -76,5 +85,7 @@ namespace ExpenseTracker.BlazorClient.Services
                 this.httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             }
         }
+
+
     }
 }
