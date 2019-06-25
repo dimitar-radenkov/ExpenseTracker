@@ -35,9 +35,8 @@
     private async Task OnLoginButtonClick()
     {
         await this.authService.LoginAsync(this.loginModel.Email, this.loginModel.Password);
-
-        var loginInfo = await this.authService.GetLoginInfo();
-        if (loginInfo.IsLogged)
+    
+        if (this.authService.IsLoggedIn)
         {
             this.uriHelper.NavigateTo("/");
         }

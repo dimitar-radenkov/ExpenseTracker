@@ -1,0 +1,29 @@
+﻿@page "/expenses/getall"
+
+@using ExpenseTracker.Common.Models.BindingModels;
+@using ExpenseTracker.BlazorClient.Services;
+@using Microsoft.AspNetCore.Components
+
+@inject IAuthService authService;
+@inject IUriHelper uriHelper;
+
+<h2>Login</h2>
+<br />
+<div class="row">
+    
+</div>
+
+@functions{
+
+    private LoginBindingModel loginModel = new LoginBindingModel();
+
+    private async Task OnLoginButtonClick()
+    {
+        await this.authService.LoginAsync(this.loginModel.Email, this.loginModel.Password);
+        
+        if (this.authService.IsLoggedIn)
+        {
+            this.uriHelper.NavigateTo("/");
+        }
+    }
+}

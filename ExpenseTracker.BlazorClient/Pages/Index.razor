@@ -4,24 +4,12 @@
 
 @inject IAuthService authService;
 
-@if (this.loginInfo != null)
+@if (this.authService.IsLoggedIn)
 {
-    @if (this.loginInfo.IsLogged)
-    {
-        <h2>Hello, @this.loginInfo.Username</h2>
-    }
-    else
-    {
-        <h2>Please <a href="/login">login</a>! </h2>
-    }
+    <h2>Hello, @this.authService.Username</h2>
+}
+else
+{
+    <h2>Please <a href="/login">login</a>! </h2>
 }
 
-@functions
-{
-    private LoginInfo loginInfo;
-
-    protected async override Task OnInitAsync()
-    {
-        this.loginInfo = await this.authService.GetLoginInfo();
-    }
-}

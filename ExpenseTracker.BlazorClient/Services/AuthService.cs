@@ -15,12 +15,30 @@ namespace ExpenseTracker.BlazorClient.Services
         //this should NOT be haredcoded
         private const string URL = "https://localhost:44382/api/authorization/login";
 
+        private string token;
+
         private HttpClient httpClient;
         private readonly ILocalStorageService localStorageService;
+
+        public bool IsLoggedIn { get; private set; }
+
+        public string Username { get; private set; }
 
         public AuthService(ILocalStorageService localStorageService)
         {
             this.localStorageService = localStorageService;
+
+            this.localStorageService
+                .GetItemAsync<string>(AppConstants.AUTH_KEY)
+                .ContinueWith(t => 
+                {
+                    this.token = t.Result;
+                    this.IsLoggedIn = this.token != null;
+                });
+
+            this.localStorageService
+                .GetItemAsync<string>(AppConstants.LOGGED_USER_KEY)
+                .ContinueWith(t => this.Username = t.Result);
         }
 
         public async Task LoginAsync(string email, string pass)
@@ -34,6 +52,7 @@ namespace ExpenseTracker.BlazorClient.Services
 
                     await this.SaveToStorage(response.User, response.User);
                     await this.SetAuthorizationHeader();
+                    this.IsLoggedIn = true;
                 }
             }
             catch (Exception e)
@@ -46,22 +65,10 @@ namespace ExpenseTracker.BlazorClient.Services
         {
             await this.localStorageService.RemoveItemAsync(AppConstants.AUTH_KEY);
             await this.localStorageService.RemoveItemAsync(AppConstants.LOGGED_USER_KEY);
-        }
 
-        public async Task<LoginInfo> GetLoginInfo()
-        {
-            var hasToken = await this.localStorageService.GetItemAsync<string>(AppConstants.AUTH_KEY) != null;
-            if (!hasToken)
-            {
-                return new LoginInfo { IsLogged = false, Username = string.Empty };
-            }
-            var username = await this.localStorageService.GetItemAsync<string>(AppConstants.LOGGED_USER_KEY);
-
-            return new LoginInfo
-            {
-                IsLogged = true,
-                Username = username
-            };
+            this.Username = string.Empty;
+            this.token = string.Empty;
+            this.IsLoggedIn = false;
         }
 
         private async Task SaveToStorage(string token, string user)

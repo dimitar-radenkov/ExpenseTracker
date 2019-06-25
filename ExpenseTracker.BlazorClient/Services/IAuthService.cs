@@ -8,6 +8,8 @@ namespace ExpenseTracker.BlazorClient.Services
 
         Task LogoutAsync();
 
-        Task<LoginInfo> GetLoginInfo();
+        bool IsLoggedIn { get; }
+
+        string Username { get; }
     }
 }
