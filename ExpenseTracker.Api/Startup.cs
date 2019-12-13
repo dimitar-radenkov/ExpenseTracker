@@ -1,8 +1,8 @@
-﻿using ExpenseTracker.Api.Contansts;
+﻿using System.Text;
+using ExpenseTracker.Api.Contansts;
 using ExpenseTracker.Api.Extensions;
 using ExpenseTracker.Api.Services;
 using ExpenseTracker.Api.Services.Contracts;
-using ExpenseTracker.Common.Models.BindingModels;
 using ExpenseTracker.Storage;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -13,7 +13,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
 
 namespace ExpenseTracker.Api
 {
